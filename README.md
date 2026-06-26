@@ -23,19 +23,19 @@ python -m http.server 5500
 
 ## 🌐 GitHub Pages дээр үнэгүй deploy хийх
 
-1. GitHub дээр шинэ repo үүсгэх (жишээ нэр: `sergeelegch`).
+1. GitHub дээр шинэ repo үүсгэх (жишээ нэр: `sergiilegch`).
 2. Энэ фолдерын файлуудыг push хийх:
    ```bash
    git init
    git add .
    git commit -m "Сэргийлэгч демо"
    git branch -M main
-   git remote add origin https://github.com/<хэрэглэгч>/sergeelegch.git
+   git remote add origin https://github.com/<хэрэглэгч>/sergiilegch.git
    git push -u origin main
    ```
 3. GitHub repo → **Settings → Pages** → *Build and deployment* → Source: **Deploy from a branch** → Branch: **main** / **/(root)** → Save.
 4. 1-2 минутын дараа сайт нээгдэнэ:
-   `https://<хэрэглэгч>.github.io/sergeelegch/`
+   `https://<хэрэглэгч>.github.io/sergiilegch/`
 
 > Газрын зураг, фонт нь интернэтээс ачаалагдах тул deploy хийсэн сайт онлайн ажиллана.
 
