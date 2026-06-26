@@ -1,0 +1,8 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+
+# Эдгээрийг repo-д оруулахгүй (хэрэв хуулагдсан бол)
+node_modules/
+.vscode/
