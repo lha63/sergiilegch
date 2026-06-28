@@ -58,8 +58,8 @@ const ROUTES = [
 const GUARDIANS = [
   { name: "Г. Ганаа",   role: "Хэсгийн ахлагч",     dist: 240,  eta: 2,  color: "#2563EB", initials: "ГА", status: "online" },
   { name: "Цагдаа 102", role: "Эргүүлийн машин",     dist: 600,  eta: 4,  color: "#DC2626", initials: "102", status: "online" },
-  { name: "Б. Дорж",    role: "Сайн дурын Guardian", dist: 410,  eta: 3,  color: "#16A34A", initials: "БД", status: "online" },
-  { name: "С. Оюун",    role: "Сайн дурын Guardian", dist: 880,  eta: 6,  color: "#7C3AED", initials: "СО", status: "away" },
+  { name: "Б. Дорж",    role: "Сайн дурын хамгаалагч", dist: 410,  eta: 3,  color: "#16A34A", initials: "БД", status: "online" },
+  { name: "С. Оюун",    role: "Сайн дурын хамгаалагч", dist: 880,  eta: 6,  color: "#7C3AED", initials: "СО", status: "away" },
 ];
 
 /* AI камерын илрүүлэлт */
@@ -73,7 +73,7 @@ const CAMERA_EVENTS = [
 /* Нүүр хуудасны үйл явдлын урсгал */
 const FEED = [
   { icon: "i-alert", tint: "tint-red",   title: "Эрсдэлийн анхааруулга", sub: "Их тойруу зүүнд орой явахад эрсдэл өндөр", time: "Одоо" },
-  { icon: "i-users", tint: "tint-blue",  title: "Шинэ Guardian нэгдлээ", sub: "Таны хороонд 2 сайн дурынхан нэмэгдсэн", time: "12 мин" },
+  { icon: "i-users", tint: "tint-blue",  title: "Шинэ хамгаалагч нэгдлээ", sub: "Таны хороонд 2 сайн дурынхан нэмэгдсэн", time: "12 мин" },
   { icon: "i-video", tint: "tint-amber", title: "Камер: сэжигтэй бөөгнөрөл", sub: "БГД 20-р хороо орчим", time: "1 цаг" },
   { icon: "i-shield-check", tint: "tint-green", title: "Аюулгүй хүрлээ", sub: "Өчигдрийн 'Хяна' аялал амжилттай дууссан", time: "Өчигдөр" },
 ];
@@ -149,7 +149,7 @@ const HAVENS = [
   { name: "1-р цагдаагийн хэлтэс", type: "Цагдаа", open: "24/7", lat: 47.9210, lng: 106.9100, dist: 540, icon: "i-shield", color: "#2563EB" },
   { name: "Улсын нэгдсэн эмнэлэг", type: "Эмнэлэг", open: "24/7", lat: 47.9135, lng: 106.9230, dist: 760, icon: "i-cross", color: "#DC2626" },
   { name: "Шатахуун түгээх станц", type: "24 цагийн", open: "24/7", lat: 47.9100, lng: 106.9120, dist: 420, icon: "i-pin", color: "#F59E0B" },
-  { name: "Safe Haven дэлгүүр", type: "Түнш цэг", open: "07:00–02:00", lat: 47.9195, lng: 106.9200, dist: 310, icon: "i-heart", color: "#7C3AED" },
+  { name: "Аюулгүй цэг дэлгүүр", type: "Түнш цэг", open: "07:00–02:00", lat: 47.9195, lng: 106.9200, dist: 310, icon: "i-heart", color: "#7C3AED" },
 ];
 
 /* Эмнэлгийн SOS карт */
@@ -180,10 +180,10 @@ const MODE_GROUPS = [
     { id: "community", title: "Иргэдийн анхааруулга", sub: "Бодит цагийн мэдээлэл", icon: "i-megaphone", tint: "tint-amber" },
   ]},
   { title: "Хяналт ба хамтын ажиллагаа", modes: [
-    { id: "live",     title: "Live горим (бодит)", sub: "Real-time: хүүхэд ↔ ахлагч", icon: "i-share", tint: "tint-green" },
+    { id: "live",     title: "Шууд горим (бодит цаг)", sub: "Бодит цаг: хүүхэд ↔ ахлагч", icon: "i-share", tint: "tint-green" },
     { id: "watch",    title: "Намайг гэртээ хүртэл хяна", sub: "Аяллын явцыг хянах", icon: "i-locate", tint: "tint-cyan" },
     { id: "family",   title: "Гэр бүлийн тойрог", sub: "Итгэлт хүмүүсийн байршил", icon: "i-heart", tint: "tint-red" },
-    { id: "guardian", title: "Community Guardian", sub: "Ойролцоох туслахууд", icon: "i-users", tint: "tint-violet" },
+    { id: "guardian", title: "Иргэдийн хамгаалагч", sub: "Ойролцоох туслахууд", icon: "i-users", tint: "tint-violet" },
     { id: "voice",    title: "Дуу хоолойгоор SOS", sub: "Түлхүүр үгээр дохио", icon: "i-mic", tint: "tint-amber" },
     { id: "camera",   title: "AI камерын анализ", sub: "Бичлэгээс эрсдэл илрүүлэх", icon: "i-video", tint: "tint-slate" },
   ]},

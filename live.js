@@ -101,7 +101,7 @@ const liveCfgWarn = () => LIVE.configured ? "" :
 SCREENS.live = () => {
   const s = liveLoad();
   return `
-    ${subhead("Live горим — бодит", "Real-time туршилт: хүүхэд ↔ хэсгийн ахлагч")}
+    ${subhead("Шууд горим", "Бодит цагт: хүүхэд ↔ хэсгийн ахлагч")}
     ${liveCfgWarn()}
     ${s && s.circleId ? `
       <button class="btn btn--primary" data-action="liveResume" style="margin-bottom:var(--s4)">

@@ -115,7 +115,7 @@ SCREENS.home = () => {
       <p class="status-card__desc">${s.desc}</p>
       <div class="status-card__meta">
         <div>Хорооны оноо <b>${s.score}/100</b></div>
-        <div>Идэвхтэй Guardian <b>${s.guardians}</b></div>
+        <div>Идэвхтэй хамгаалагч <b>${s.guardians}</b></div>
         <div>Гэр бүлийн тойрог <b>${FAMILY.length}</b></div>
       </div>
     </section>
@@ -287,7 +287,7 @@ POST.route = () => {
 
 /* ---------- Community Guardian (Горим 3) ---------- */
 SCREENS.guardian = () => `
-  ${subhead("Community Guardian", "Сайн дурын иргэд • Хэсгийн ахлагч • Цагдаа")}
+  ${subhead("Иргэдийн хамгаалагч", "Сайн дурын иргэд • Хэсгийн ахлагч • Цагдаа")}
   <div class="card" style="margin-bottom:var(--s4);text-align:center">
     <div class="score-big" style="color:var(--accent-hover)">${GUARDIANS.length}</div>
     <div class="row__sub">Таны 1.5 км дотор идэвхтэй туслах</div>
@@ -295,7 +295,7 @@ SCREENS.guardian = () => `
 
   <div class="note-box" style="margin-bottom:var(--s4)">
     ${icon("i-info")}
-    <span>SOS дарвал хамгийн ойрхон туслах нарт нэгэн зэрэг мэдэгдэнэ. Хариу өгөхгүй бол автоматаар цагдаа руу эскалаци хийнэ.</span>
+    <span>SOS дарвал хамгийн ойрхон туслах нарт нэгэн зэрэг мэдэгдэнэ. Хариу өгөхгүй бол автоматаар цагдаа руу дамжуулна.</span>
   </div>
 
   <div class="section-title">Ойролцоох туслахууд</div>
@@ -368,7 +368,7 @@ SCREENS.watch = () => `
     </div>
     <div class="row" style="border:0;padding:0;background:none;min-height:auto">
       <span class="row__icon tint-blue">${icon("i-user","icon--sm")}</span>
-      <span class="row__main"><span class="row__sub">Хянах хүн</span><span class="row__title">Ээж • Г. Ганаа (Guardian)</span></span>
+      <span class="row__main"><span class="row__sub">Хянах хүн</span><span class="row__title">Ээж • Г. Ганаа (хамгаалагч)</span></span>
     </div>
   </div>
 
@@ -432,7 +432,7 @@ SCREENS.camera = () => `
     ${CAMERA_EVENTS.map((c) => `
       <div class="cam">
         <span class="cam__tag">${c.tag}</span>
-        ${c.level !== "safe" ? `<span class="cam__live"><span class="dot"></span> LIVE</span>` : ""}
+        ${c.level !== "safe" ? `<span class="cam__live"><span class="dot"></span> ШУУД</span>` : ""}
         <span class="cam__detect ${LEVEL_PILL[c.level]}">
           ${icon(c.level === "safe" ? "i-check" : "i-alert")} ${c.type}
         </span>
@@ -682,7 +682,7 @@ SCREENS.camDetail = (i) => {
   return `
     ${subhead(c.type, `${c.tag} • ${c.loc}`)}
     <div class="cam" style="aspect-ratio:16/10;margin-bottom:var(--s4)">
-      ${c.level !== "safe" ? `<span class="cam__live"><span class="dot"></span> LIVE</span>` : ""}
+      ${c.level !== "safe" ? `<span class="cam__live"><span class="dot"></span> ШУУД</span>` : ""}
       <span class="cam__tag">${c.tag}</span>
       <span class="cam__detect ${LEVEL_PILL[c.level]}">${icon(c.level === "safe" ? "i-check" : "i-alert")} ${c.type}</span>
     </div>
@@ -738,7 +738,7 @@ SCREENS.profile = () => `
     <span class="pill pill--safe" style="margin-left:auto">${icon("i-shield-check")} Идэвхтэй</span>
   </div>
 
-  <button class="btn btn--primary" data-nav="live" style="margin:var(--s2) 0 var(--s2)">${icon("i-share")} Live горим (бодит цагийн туршилт)</button>
+  <button class="btn btn--primary" data-nav="live" style="margin:var(--s2) 0 var(--s2)">${icon("i-share")} Шууд горим (бодит цагт)</button>
 
   <div class="section-title">Яаралтай холбоо барих</div>
   <div class="list">
@@ -746,7 +746,7 @@ SCREENS.profile = () => `
       <span class="row__main"><span class="row__title">Ээж</span><span class="row__sub">+976 8800 0000 • Үндсэн</span></span>
       <span class="row__end">${icon("i-phone","icon--sm")}</span></div>
     <div class="row"><span class="row__icon tint-violet">${icon("i-user","icon--sm")}</span>
-      <span class="row__main"><span class="row__title">Г. Ганаа</span><span class="row__sub">Хэсгийн ахлагч • Guardian</span></span>
+      <span class="row__main"><span class="row__title">Г. Ганаа</span><span class="row__sub">Хэсгийн ахлагч • хамгаалагч</span></span>
       <span class="row__end">${icon("i-phone","icon--sm")}</span></div>
     <button class="row" data-action="addContact"><span class="row__icon tint-slate">${icon("i-plus","icon--sm")}</span>
       <span class="row__main"><span class="row__title">Холбоо нэмэх</span></span>
@@ -757,13 +757,13 @@ SCREENS.profile = () => `
   <div class="list">
     ${profileRow("i-bell","tint-amber","Мэдэгдэл","Эрсдэлийн анхааруулга асаалттай")}
     ${profileRow("i-lock","tint-green","Нууцлал","Байршил зөвхөн зөвшөөрсөн үед")}
-    ${profileRow("i-users","tint-blue","Guardian болох","Сайн дурын туслахаар бүртгүүлэх")}
+    ${profileRow("i-users","tint-blue","Хамгаалагч болох","Сайн дурын туслахаар бүртгүүлэх")}
     ${profileRow("i-settings","tint-slate","Хэл / Тохиргоо","Монгол хэл")}
   </div>
 
   <div class="note-box" style="margin-top:var(--s5)">
     ${icon("i-info")}
-    <span>Сэргийлэгч — иргэдийн аюулгүй байдлыг бодит цагт хамгаалах апп. "Live горим"-оор хүүхэд, ахлагч хоёр real-time холбогдоно.</span>
+    <span>Сэргийлэгч — иргэдийн аюулгүй байдлыг бодит цагт хамгаалах апп. "Шууд горим"-оор хүүхэд, ахлагч хоёр бодит цагт холбогдоно.</span>
   </div>
 `;
 const profileRow = (ic, tint, title, sub) => `
@@ -777,7 +777,7 @@ const profileRow = (ic, tint, title, sub) => `
 SCREENS.sos = () => `
   <div class="sos-screen" id="sosRoot">
     <h1 class="subhead__title" style="margin-top:var(--s4)">Яаралтай тусламж</h1>
-    <p class="lead">Доорх товчийг дарж тусламж дуудна. Ойролцоох Guardian болон цагдаад мэдэгдэнэ.</p>
+    <p class="lead">Доорх товчийг дарж тусламж дуудна. Ойролцоох хамгаалагч болон цагдаад мэдэгдэнэ.</p>
     <button class="sos-pulse" data-action="fireSOS" aria-label="SOS дуудлага илгээх">
       <span><span class="big">SOS</span><br><span class="small">Дарж дуудах</span></span>
     </button>
@@ -1017,7 +1017,7 @@ function discreetActivated(method) {
   { const fab = document.getElementById("fabDiscreet"); if (fab) fab.hidden = true; }
   screenEl.scrollTop = 0;
   screenEl.innerHTML = `<div class="screen__inner"><div class="sos-screen" id="recRoot">
-    <span class="rec-badge"><span class="rec-dot"></span> REC · <span id="recTime">00:00</span></span>
+    <span class="rec-badge"><span class="rec-dot"></span> БИЧЛЭГ · <span id="recTime">00:00</span></span>
     <div class="cam" style="aspect-ratio:16/10;margin:var(--s4) 0">
       <span class="cam__live"><span class="dot"></span> Бичиж байна</span>
       <span class="cam__detect pill--danger">${icon("i-rec")} Нотлох баримт</span>
