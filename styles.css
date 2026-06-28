@@ -517,3 +517,40 @@ body {
   .phone { border-radius: 0; border-width: 0; height: 100dvh; max-height: 100dvh; }
   .demo-note { display: none; }
 }
+
+/* ===================== Live горим ===================== */
+.live-label { display: block; font-size: var(--fs-sm); font-weight: 600; color: var(--text-muted); margin: var(--s2) 0 6px; }
+.live-input {
+  width: 100%; min-height: var(--tap); padding: 12px 16px; border-radius: var(--radius);
+  background: var(--surface); border: 1px solid var(--border-strong); color: var(--text);
+  font: inherit; font-size: var(--fs-md);
+}
+.live-input::placeholder { color: var(--text-faint); }
+.live-input--code { text-align: center; font-size: 34px; font-weight: 800; letter-spacing: 12px; font-variant-numeric: tabular-nums; }
+
+.live-role {
+  display: flex; align-items: center; gap: var(--s3); width: 100%; text-align: left; cursor: pointer;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: var(--s4); margin-bottom: var(--s3); color: var(--text); appearance: none;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.live-role:hover { background: var(--surface-2); border-color: var(--border-strong); }
+.live-role .icon { color: var(--text-faint); margin-left: auto; }
+.live-role__icon { width: var(--tap); height: var(--tap); border-radius: 12px; display: grid; place-items: center; flex: none; }
+.live-role__t { display: block; font-size: var(--fs-md); font-weight: 700; }
+.live-role__s { display: block; font-size: var(--fs-xs); color: var(--text-muted); }
+
+.live-code-sm { font-size: var(--fs-xl); font-weight: 800; letter-spacing: 4px; font-variant-numeric: tabular-nums; }
+
+/* SOS анхааруулга (ахлагчид) — бүтэн дэлгэцийн overlay */
+.sos-alert {
+  position: absolute; inset: 0; z-index: 360; display: grid; place-items: center; text-align: center;
+  color: #fff; padding: var(--s6) var(--s5);
+  animation: sosFlash 0.7s steps(1) infinite;
+}
+@keyframes sosFlash { 0% { background: #7f1d1d; } 50% { background: #b91c1c; } }
+.sos-alert__inner { width: 100%; }
+.sos-alert__name { font-size: 30px; font-weight: 800; margin-top: var(--s3); }
+.sos-alert__kind { font-size: var(--fs-md); opacity: 0.92; margin-top: 4px; }
+.sos-alert__loc { font-size: var(--fs-sm); opacity: 0.85; margin-top: var(--s3); display: inline-flex; align-items: center; gap: 6px; }
+.sos-alert .btn--ghost { background: rgba(255,255,255,0.14); border-color: rgba(255,255,255,0.25); color: #fff; }

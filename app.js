@@ -63,6 +63,7 @@ function navigate(route, param) {
   document.querySelector(".fakecall")?.remove();
   document.querySelector(".siren-ov")?.remove();
   document.querySelector(".sheet")?.remove();
+  if (typeof liveCleanupMap === "function") liveCleanupMap();
   const fn = SCREENS[route];
   if (!fn) return;
   screenEl.innerHTML = `<div class="screen__inner">${fn(param)}</div>`;
@@ -737,6 +738,8 @@ SCREENS.profile = () => `
     <span class="pill pill--safe" style="margin-left:auto">${icon("i-shield-check")} Идэвхтэй</span>
   </div>
 
+  <button class="btn btn--primary" data-nav="live" style="margin:var(--s2) 0 var(--s2)">${icon("i-share")} Live горим (бодит цагийн туршилт)</button>
+
   <div class="section-title">Яаралтай холбоо барих</div>
   <div class="list">
     <div class="row"><span class="row__icon tint-blue">${icon("i-user","icon--sm")}</span>
@@ -954,6 +957,7 @@ const ACTIONS = {
 };
 
 function sosSent() {
+  if (typeof liveSendSos === "function") liveSendSos("sos");
   const root = $("#sosRoot");
   root.innerHTML = `
     <div style="padding-top:var(--s6)">
@@ -1006,6 +1010,7 @@ function showFakeCall() {
 
 /* ---------- Discreet SOS: evidence recording state ---------- */
 function discreetActivated(method) {
+  if (typeof liveSendSos === "function") liveSendSos(/Уналт/.test(method || "") ? "fall" : "discreet");
   destroyMap();
   clearInterval(window._recT);
   [...tabbar.querySelectorAll(".tab")].forEach((b) => b.classList.remove("is-active"));
@@ -1120,4 +1125,7 @@ navigate = function (route, param) {
   if (location.hash.slice(1) !== route) history.replaceState(null, "", route === "home" ? "#" : "#" + route);
 };
 window.addEventListener("hashchange", () => navigate(routeFromHash()));
+// Анхны hash-ийг хадгална: live.js дараа ачаалагдах тул #live зэрэг route boot үед
+// танигдахгүй "home" руу шилжихэд URL hash арилдаг — live.js үүнийг уншиж сэргээнэ.
+const BOOT_HASH = location.hash.slice(1);
 navigate(routeFromHash());

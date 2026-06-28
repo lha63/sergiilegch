@@ -180,6 +180,7 @@ const MODE_GROUPS = [
     { id: "community", title: "Иргэдийн анхааруулга", sub: "Бодит цагийн мэдээлэл", icon: "i-megaphone", tint: "tint-amber" },
   ]},
   { title: "Хяналт ба хамтын ажиллагаа", modes: [
+    { id: "live",     title: "Live горим (бодит)", sub: "Real-time: хүүхэд ↔ ахлагч", icon: "i-share", tint: "tint-green" },
     { id: "watch",    title: "Намайг гэртээ хүртэл хяна", sub: "Аяллын явцыг хянах", icon: "i-locate", tint: "tint-cyan" },
     { id: "family",   title: "Гэр бүлийн тойрог", sub: "Итгэлт хүмүүсийн байршил", icon: "i-heart", tint: "tint-red" },
     { id: "guardian", title: "Community Guardian", sub: "Ойролцоох туслахууд", icon: "i-users", tint: "tint-violet" },
