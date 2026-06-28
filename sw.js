@@ -1,7 +1,8 @@
-/* Сэргийлэгч — service worker (app-shell cache).
-   Зөвхөн локал GET файлыг кэшлэнэ. Firebase, газрын зургийн tile, фонт зэрэг
-   гадаад/динамик хүсэлтийг кэшлэхгүй — сүлжээ рүү шууд дамжуулна. */
-const CACHE = "sergiilegch-v1";
+/* Сэргийлэгч — service worker.
+   Network-first: онлайн үед ҮРГЭЛЖ шинэ хувилбарыг авна (шинэчлэлт шууд харагдана),
+   офлайн үед кэшнээс fallback хийнэ. Firebase, газрын зургийн tile, фонт зэрэг
+   гадаад хүсэлтийг шууд сүлжээгээр дамжуулна. */
+const CACHE = "sergiilegch-v3";
 const ASSETS = [
   "./",
   "./index.html",
@@ -28,14 +29,15 @@ self.addEventListener("activate", (e) => {
 
 self.addEventListener("fetch", (e) => {
   const req = e.request;
-  if (req.method !== "GET") return;                 // зөвхөн GET
+  if (req.method !== "GET") return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;  // гадаад хүсэлтийг шууд сүлжээгээр (Firebase/tiles/fonts)
+  if (url.origin !== self.location.origin) return;  // гадаад (Firebase/tiles/fonts) → шууд сүлжээ
+  // Network-first: шинэ хувилбарыг урьдчилан авч, кэшийг шинэчилнэ; алдвал кэшнээс
   e.respondWith(
-    caches.match(req).then((cached) => cached || fetch(req).then((res) => {
+    fetch(req).then((res) => {
       const copy = res.clone();
       caches.open(CACHE).then((c) => c.put(req, copy)).catch(() => {});
       return res;
-    }).catch(() => cached))
+    }).catch(() => caches.match(req))
   );
 });
