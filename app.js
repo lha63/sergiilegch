@@ -1108,8 +1108,10 @@ function fallDetected() {
    Boot
    =================================================================== */
 function tickClock() {
+  const el = $("#clock");
+  if (!el) return;
   const d = new Date();
-  $("#clock").textContent = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
+  el.textContent = `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }
 tickClock();
 setInterval(tickClock, 30000);
