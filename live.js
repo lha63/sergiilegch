@@ -292,8 +292,11 @@ function liveStartSharing() {
         lat, lng, accuracy, batt: LIVE.batt, zone: "safe", updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
       }, { merge: true }).catch(() => {});
     }
-  }, (err) => toast("Байршил авах боломжгүй: " + err.message, "i-alert"),
-    { enableHighAccuracy: true, maximumAge: 4000, timeout: 20000 });
+  }, (err) => {
+    if (LIVE.watchId != null) { navigator.geolocation.clearWatch(LIVE.watchId); LIVE.watchId = null; liveSyncShareUI(); }
+    if (err.code === 1) toast("Байршлын зөвшөөрөл хаалттай. Тохиргоо → Location Services → Safari-г зөвшөөрнө үү", "i-alert");
+    else toast("Байршил авах боломжгүй: " + err.message, "i-alert");
+  }, { enableHighAccuracy: true, maximumAge: 4000, timeout: 20000 });
   liveSyncShareUI();
   toast("Байршил хуваалцаж эхэллээ", "i-share");
 }
