@@ -23,7 +23,7 @@ const LIVE = {
   batt: null, watchId: null, _lastWrite: 0,
   unsubLoc: null, unsubSos: null, unsubTrip: null,
   markers: {}, locs: {}, trips: {}, dest: null, childDot: null,
-  audioCtx: null, shownSos: {},
+  audioCtx: null, shownSos: {}, _authCbs: [],
 };
 
 let _db = null, _auth = null;
@@ -36,7 +36,13 @@ function liveInit() {
     _auth = firebase.auth();
     _db = firebase.firestore();
     LIVE.configured = true;
-    _auth.onAuthStateChanged((u) => { if (u) { LIVE.uid = u.uid; liveRestore(); } });
+    _auth.onAuthStateChanged((u) => {
+      if (!u) return;
+      LIVE.uid = u.uid;
+      liveRestore();
+      const cbs = LIVE._authCbs; LIVE._authCbs = [];
+      cbs.forEach((fn) => { try { fn(); } catch (e) {} });
+    });
     _auth.signInAnonymously().catch((e) => console.warn("anon auth", e));
     if (navigator.getBattery) navigator.getBattery().then((b) => { LIVE.batt = Math.round(b.level * 100); }).catch(() => {});
   } catch (e) { console.warn("Firebase init", e); LIVE.configured = false; }
@@ -55,6 +61,7 @@ function liveRestore() {
   Object.assign(LIVE, { role: s.role, circleId: s.circleId, name: s.name, initials: s.initials, color: s.color, active: true });
   if (LIVE.role === "guardian") liveWatchSos();
 }
+function whenAuthReady(cb) { if (LIVE.uid) cb(); else LIVE._authCbs.push(cb); }
 
 /* ---------- Audio (SOS дохио) ---------- */
 function liveUnlockAudio() {
@@ -171,6 +178,7 @@ POST.liveGuardian = () => {
   const map = baseMap("map", { lat: UB.lat, lng: UB.lng, zoom: 13 });
   mapInstance = map; LIVE.markers = {};
   if (!LIVE.configured || !LIVE.circleId) return;
+  whenAuthReady(() => {
   LIVE.unsubLoc = _db.collection(`circles/${LIVE.circleId}/locations`).onSnapshot((snap) => {
     snap.docChanges().forEach((ch) => {
       const m = ch.doc.data(); if (!m || m.lat == null) return;
@@ -186,6 +194,7 @@ POST.liveGuardian = () => {
   LIVE.unsubTrip = _db.collection(`circles/${LIVE.circleId}/trip`).onSnapshot((snap) => {
     snap.forEach((d) => { LIVE.trips[d.id] = d.data(); });
     liveRenderRoster();
+  });
   });
 };
 
@@ -342,12 +351,14 @@ function liveSendSos(kind = "sos") {
 /* ---------- SOS: хүлээн авах (ахлагч) ---------- */
 function liveWatchSos() {
   if (!LIVE.configured || !LIVE.circleId) return;
+  whenAuthReady(() => {
   if (LIVE.unsubSos) LIVE.unsubSos();
   LIVE.unsubSos = _db.collection(`circles/${LIVE.circleId}/sos`).where("status", "==", "active").onSnapshot((snap) => {
     snap.docChanges().forEach((ch) => {
       if (ch.type === "added" && !LIVE.shownSos[ch.doc.id]) { LIVE.shownSos[ch.doc.id] = 1; showSosAlert(ch.doc.id, ch.doc.data()); }
       if (ch.type === "removed") document.querySelector(`.sos-alert[data-id="${ch.doc.id}"]`)?.remove();
     });
+  });
   });
 }
 
@@ -391,7 +402,17 @@ liveInit();
 
 // app.js-ийн boot нь live.js-ээс өмнө ажилладаг тул #live зэрэг Live route-уудыг
 // энд дахин шийдэж, шаардвал дахин navigate хийнэ.
-(function liveResolveHash() {
+(function liveBoot() {
   const h = (typeof BOOT_HASH !== "undefined" && BOOT_HASH) ? BOOT_HASH : (location.hash || "").slice(1);
-  if (h && SCREENS[h]) setTimeout(() => navigate(h), 0);
+  // Тодорхой дэлгэц рүү deep-link хийсэн бол түүнийг нээнэ
+  if (h && h !== "home" && SCREENS[h]) { setTimeout(() => navigate(h), 0); return; }
+  // Үгүй бол апп ШУУД ГОРИМ руу нээгдэнэ (холбогдсон бол хүүхэд/ахлагч дэлгэц)
+  const s = liveLoad();
+  if (s && s.circleId) {
+    Object.assign(LIVE, { role: s.role, circleId: s.circleId, name: s.name, initials: s.initials, color: s.color, active: true });
+    if (LIVE.role === "guardian") liveWatchSos();
+    setTimeout(() => navigate(LIVE.role === "guardian" ? "liveGuardian" : "liveChild"), 0);
+  } else {
+    setTimeout(() => navigate("live"), 0);
+  }
 })();
