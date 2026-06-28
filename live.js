@@ -16,6 +16,9 @@ const FIREBASE_CONFIG = {
   appId: "1:460896415394:web:ab322c3f18e95a0e16f1fb",
 };
 
+// Туршилтын горим: код оруулахгүй — хүүхэд, ахлагч ижил тойрогт шууд холбогдоно
+const TEST_CIRCLE = "test-01";
+
 const LIVE = {
   configured: false, active: false,
   role: null, circleId: null, uid: null,
@@ -143,7 +146,7 @@ SCREENS.liveChild = () => `
   ${subhead("Хүүхдийн горим", "Ахлагч тань таныг хянаж байна")}
   <div class="card" style="margin-bottom:var(--s3);display:flex;align-items:center;gap:var(--s3)">
     <span class="avatar" style="background:${LIVE.color || "#DC2626"}">${LIVE.initials || "Х"}</span>
-    <div><div class="row__title">${LIVE.name || "Хүүхэд"}</div><div class="row__sub">Тойрог: ${LIVE.circleId || "—"}</div></div>
+    <div><div class="row__title">${LIVE.name || "Хүүхэд"}</div><div class="row__sub">Ахлагчтай холбогдсон • туршилт</div></div>
     <span class="pill pill--safe" style="margin-left:auto" id="liveShareState">Идэвхгүй</span>
   </div>
   <div id="map" class="map" role="img" aria-label="Таны байршил"></div>
@@ -164,9 +167,8 @@ POST.liveChild = () => {
 SCREENS.liveGuardian = () => `
   ${subhead("Хяналтын горим", "Тойрогт холбогдсон хүүхдүүд амьд харагдана")}
   <div class="card" style="margin-bottom:var(--s3);display:flex;align-items:center;gap:var(--s3)">
-    <span class="row__icon tint-blue">${icon("i-shield-check","icon--sm")}</span>
-    <div><div class="row__sub">Тойргийн код</div><div class="live-code-sm">${LIVE.circleId || "—"}</div></div>
-    <button class="btn btn--ghost" data-action="liveShareCode" style="width:auto;margin-left:auto;min-height:38px;padding:8px 14px">${icon("i-share","icon--sm")} Код өгөх</button>
+    <span class="row__icon tint-green">${icon("i-shield-check","icon--sm")}</span>
+    <div><div class="row__sub">Туршилтын горим</div><div class="row__title">Хүүхэд "Байршил хуваалцах" дармагц энд харагдана</div></div>
   </div>
   <div id="map" class="map map--tall" role="img" aria-label="Хүүхдүүдийн амьд байршил"></div>
   <div class="section-title">Гишүүд</div>
@@ -225,8 +227,16 @@ ACTIONS.liveRole = (e, el) => {
   const nm = (document.getElementById("liveName")?.value || "").trim();
   LIVE.role = role; LIVE.name = nm || (role === "child" ? "Хүүхэд" : "Ахлагч");
   LIVE.initials = liveInitials(LIVE.name); LIVE.color = liveColorFor(role);
-  if (role === "guardian") liveCreateCircle();
-  else navigate("livePair");
+  // Туршилтын горим: код оруулахгүй, хоёр тал ижил тойрогт шууд холбогдоно
+  LIVE.circleId = TEST_CIRCLE; LIVE.active = true; liveSave();
+  if (LIVE.configured) {
+    whenAuthReady(() => _db.doc(`circles/${LIVE.circleId}`).set({
+      code: LIVE.circleId,
+      members: { [LIVE.uid]: { role, name: LIVE.name, initials: LIVE.initials, color: LIVE.color } },
+    }, { merge: true }).catch((err) => toast("Алдаа: " + err.message, "i-alert")));
+  }
+  if (role === "guardian") { liveWatchSos(); navigate("liveGuardian"); }
+  else navigate("liveChild");
 };
 
 function liveCreateCircle() {
