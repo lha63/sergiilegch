@@ -8,12 +8,12 @@
    ===================================================================== */
 
 const FIREBASE_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: "",
+  apiKey: "AIzaSyDjpsn0pB1GFxiNIneC5Wovp-rPRbspii8",
+  authDomain: "instagram-clone-c9abe.firebaseapp.com",
+  projectId: "instagram-clone-c9abe",
+  storageBucket: "instagram-clone-c9abe.firebasestorage.app",
+  messagingSenderId: "460896415394",
+  appId: "1:460896415394:web:ab322c3f18e95a0e16f1fb",
 };
 
 const LIVE = {
