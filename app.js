@@ -763,7 +763,7 @@ SCREENS.profile = () => `
 
   <div class="note-box" style="margin-top:var(--s5)">
     ${icon("i-info")}
-    <span>Сэргийлэгч v0.1 — танилцуулга зориулалттай прототип. Бүх өгөгдөл жишээ (mock).</span>
+    <span>Сэргийлэгч — иргэдийн аюулгүй байдлыг бодит цагт хамгаалах апп. "Live горим"-оор хүүхэд, ахлагч хоёр real-time холбогдоно.</span>
   </div>
 `;
 const profileRow = (ic, tint, title, sub) => `
@@ -836,8 +836,8 @@ screenEl.addEventListener("click", (e) => {
 const ACTIONS = {
   back: () => navigate("home"),
 
-  addContact: () => toast("Холбоо нэмэх (демо)", "i-plus"),
-  settingsDemo: () => toast("Тохиргоо (демо)", "i-settings"),
+  addContact: () => toast("Холбоо нэмэх", "i-plus"),
+  settingsDemo: () => toast("Тохиргоо", "i-settings"),
 
   checkin: () => toast("'Би зүгээр' тойрогт илгээгдлээ", "i-check"),
   shareLoc: () => toast("Байршлаа гэр бүлийн тойрогт хувааллаа", "i-share"),
@@ -997,7 +997,7 @@ function showFakeCall() {
       <div class="fakecall__sub">Монгол · ирж буй дуудлага…</div>
     </div>
     <div class="fakecall__avatar">Э</div>
-    <div class="fakecall__hint">${icon("i-eye-off", "icon--sm")} Хариулбал нууц SOS идэвхжинэ (демо)</div>
+    <div class="fakecall__hint">${icon("i-eye-off", "icon--sm")} Хариулбал нууц SOS идэвхжинэ</div>
     <div class="fakecall__actions">
       <button class="fakecall__btn fakecall__btn--decline" data-action="declineCall" aria-label="Татгалзах">${icon("i-x")}</button>
       <button class="fakecall__btn fakecall__btn--accept" data-action="answerCall" aria-label="Хариулах">${icon("i-phone")}</button>
@@ -1071,7 +1071,7 @@ function sirenStart() {
   o.innerHTML = `<div class="siren-ov__inner">
     ${icon("i-siren")}
     <div class="siren-ov__t">СИРЕНА ИДЭВХТЭЙ</div>
-    <div class="siren-ov__s">Чанга дуу + анивчдаг гэрэл (демо)</div>
+    <div class="siren-ov__s">Чанга дуу + анивчдаг гэрэл</div>
     <button class="btn btn--ghost" data-action="sirenStop" style="max-width:200px;margin:var(--s5) auto 0">${icon("i-x")} Зогсоох</button>
   </div>`;
   $(".phone").appendChild(o);
